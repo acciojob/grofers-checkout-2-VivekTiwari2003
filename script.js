@@ -1,25 +1,23 @@
-//your code here
-document.addEventListener("DOMContentLoaded", () => {
-    updateTotalPrice();
+function calculateTotal() {
+    const groceryList = document.getElementById('groceryList');
+    const priceCells = groceryList.querySelectorAll('[data-ns-test="prices"]');
+    let total = 0;
 
-    const groceryTable = document.getElementById("groceryTable");
-    const priceCells = groceryTable.querySelectorAll("[data-ns-test='itemPrice']");
-
-    priceCells.forEach((cell) => {
-        cell.addEventListener("input", updateTotalPrice);
-    });
-});
-
-function updateTotalPrice() {
-    const groceryTable = document.getElementById("groceryTable");
-    const priceCells = groceryTable.querySelectorAll("[data-ns-test='itemPrice']");
-
-    let totalPrice = 0;
-    priceCells.forEach((cell) => {
-        const price = parseFloat(cell.textContent);
-        totalPrice += isNaN(price) ? 0 : price;
+    // Calculate the total price by summing up individual prices
+    priceCells.forEach(cell => {
+      total += parseInt(cell.textContent);
     });
 
-    const grandTotalCell = document.querySelector("[data-ns-test='grandTotal']");
-    grandTotalCell.textContent = totalPrice;
-}
+    // Create a new row for the total price
+    const newRow = document.createElement('tr');
+    const newCell = document.createElement('td');
+    newCell.setAttribute('colspan', '2');
+    newCell.textContent = `Total Price: ${total}`;
+    newRow.appendChild(newCell);
+
+    // Add the total row to the table
+    groceryList.appendChild(newRow);
+  }
+
+  // Call the calculateTotal function to display the total price initially
+  calculateTotal()
